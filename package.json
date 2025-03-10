@@ -1,0 +1,56 @@
+{
+  "name": "pleasant-tdl",
+  "version": "1.0.0",
+  "description": "Pleasant to do list",
+  "main": "main.js",
+  "homepage": "./",
+  "author": {
+    "name": "NVS",
+    "email": "vlad.nikitin1997@bk.ru"
+  },
+  "scripts": {
+    "dev": "concurrently \"cd ./frontend && npm run dev\" \"cross-env NODE_ENV=development electron main.js\"",
+    "build": "electron-builder",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "build": {
+    "appId": "com.nvs.pleasanttdl",
+    "productName": "PleasantTdl",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "frontend/dist/**/*",
+      "backend/**/*",
+      "./main.js",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "icon.ico"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "icon": "icon.png",
+      "category": "Utility"
+    },
+    "mac": {
+      "target": "dmg"
+    }
+  },
+  "keywords": [],
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "cross-env": "^7.0.3",
+    "electron": "^35.0.0",
+    "electron-builder": "^25.1.8"
+  }
+}
