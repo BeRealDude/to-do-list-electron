@@ -1,5 +1,6 @@
 require("dotenv").config();
 const { app, BrowserWindow } = require("electron");
+const spawn = require("child_process");
 const path = require("path");
 const http = require("http");
 const { NODE_ENV } = require('./config');
@@ -18,8 +19,16 @@ function waitForFrontend(url, callback) {
 }
 
 let mainWindow;
+let backendProcess;
 
 app.whenReady().then(() => {
+  
+  // Запуск локального сервера
+  backendProcess = spawn("node", [path.join(__dirname, "backend/dist/app.js")], {
+    stdio: "inherit", // Выводить логи в консоль
+    shell: true,
+  });
+
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
@@ -45,6 +54,7 @@ app.whenReady().then(() => {
 });
 
 app.on("window-all-closed", () => {
+  if (backendProcess) backendProcess.kill();
   if (process.platform !== "darwin") {
     app.quit();
   }

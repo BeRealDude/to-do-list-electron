@@ -9,7 +9,7 @@
     "email": "vlad.nikitin1997@bk.ru"
   },
   "scripts": {
-    "dev": "concurrently \"cd ./frontend && npm run dev\" \"cross-env NODE_ENV=development electron main.js\"",
+    "dev": "concurrently \"cd ./frontend && npm run dev\" \"cd ./backend && npm run dev\" \"cross-env NODE_ENV=development electron main.js\"",
     "build": "electron-builder",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron ."
@@ -17,12 +17,13 @@
   "build": {
     "appId": "com.nvs.pleasanttdl",
     "productName": "PleasantTdl",
+    "asar": false,
     "directories": {
       "output": "dist"
     },
     "files": [
       "frontend/dist/**/*",
-      "backend/**/*",
+      "backend/dist/**/*",
       "./main.js",
       "package.json"
     ],
@@ -45,7 +46,6 @@
   "keywords": [],
   "license": "ISC",
   "dependencies": {
-    "better-sqlite3": "^11.8.1",
     "dotenv": "^16.4.7"
   },
   "devDependencies": {
