@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { app, BrowserWindow } = require("electron");
-const spawn = require("child_process");
+const { spawn } = require("child_process");
 const path = require("path");
 const http = require("http");
 const { NODE_ENV } = require('./config');
@@ -24,10 +24,7 @@ let backendProcess;
 app.whenReady().then(() => {
   
   // Запуск локального сервера
-  backendProcess = spawn("node", [path.join(__dirname, "backend/dist/app.js")], {
-    stdio: "inherit", // Выводить логи в консоль
-    shell: true,
-  });
+  
 
   mainWindow = new BrowserWindow({
     width: 800,
@@ -37,6 +34,7 @@ app.whenReady().then(() => {
       contextIsolation: false,
     },
   });
+  
 
   // win.setMenuBarVisibility(false);
 
@@ -49,6 +47,12 @@ app.whenReady().then(() => {
     });
 
   } else {
+
+    backendProcess = spawn("node", [path.join(__dirname, "backend/dist/app.js")], {
+      stdio: "inherit",
+      shell: true,
+    });
+
      mainWindow.loadFile(path.join(__dirname, "frontend/dist/index.html"));
   }
 });
