@@ -1,11 +1,15 @@
-require("dotenv").config();
-const { app, BrowserWindow } = require("electron");
-const { spawn } = require("child_process");
-const path = require("path");
-const http = require("http");
-const { NODE_ENV } = require('./config');
+import dotenv from "dotenv";
+dotenv.config();
+import  { NODE_ENV }  from './config.js';
+import { app, BrowserWindow, ipcMain } from "electron";
+import path from "path";
+import http from "http";
+import { fileURLToPath } from "node:url";
 
-function waitForFrontend(url, callback) {
+let mainWindow: BrowserWindow;
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+function waitForFrontend(url: string, callback: () => void): void {
   const checkServer = () => {
     http.get(url, (res) => {
       if (res.statusCode === 200) {
@@ -18,27 +22,23 @@ function waitForFrontend(url, callback) {
   checkServer();
 }
 
-let mainWindow;
-let backendProcess;
-
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   
   // Запуск локального сервера
-  
 
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
+      preload: path.join(__dirname, "preload.js"),
+      nodeIntegration: false,
+      contextIsolation: true,
     },
   });
   
-
   // win.setMenuBarVisibility(false);
 
-  console.log(NODE_ENV, 'NODE_ENV');
+  console.log(process.env.NODE_ENV, 'process.env.NODE_ENV');
 
   if (NODE_ENV === 'development') {
 
@@ -48,17 +48,11 @@ app.whenReady().then(() => {
 
   } else {
 
-    backendProcess = spawn("node", [path.join(__dirname, "backend/dist/app.js")], {
-      stdio: "inherit",
-      shell: true,
-    });
-
-     mainWindow.loadFile(path.join(__dirname, "frontend/dist/index.html"));
+     mainWindow.loadFile(path.join(__dirname, "../../frontend/dist/index.html"));
   }
 });
 
 app.on("window-all-closed", () => {
-  if (backendProcess) backendProcess.kill();
   if (process.platform !== "darwin") {
     app.quit();
   }

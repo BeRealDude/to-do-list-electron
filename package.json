@@ -2,14 +2,15 @@
   "name": "pleasant-tdl",
   "version": "1.0.0",
   "description": "Pleasant to do list",
-  "main": "main.js",
+  "main": "./main/dist/main.js",
   "homepage": "./",
+  "type": "module",
   "author": {
     "name": "NVS",
     "email": "vlad.nikitin1997@bk.ru"
   },
   "scripts": {
-    "dev": "concurrently \"cd ./frontend && npm run dev\" \"cd ./backend && npm run dev\" \"cross-env NODE_ENV=development electron main.js\"",
+    "dev": "concurrently \"cd ./frontend && npm run dev\" \"tsc && cross-env NODE_ENV=development electron ./main/dist/main.js\"",
     "build": "electron-builder",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron ."
@@ -22,21 +23,20 @@
       "output": "dist"
     },
     "files": [
-      "frontend/dist/**/*",
-      "backend/dist/**/*",
-      "./main.js",
-      "package.json"
+      "./frontend/dist/**/*",
+      "./main/dist/**/*",
+      "./package.json"
     ],
     "win": {
       "target": "nsis",
-      "icon": "icon.ico"
+      "icon": "./assets/icon.ico"
     },
     "linux": {
       "target": [
         "AppImage",
         "deb"
       ],
-      "icon": "icon.png",
+      "icon": "./assets/icon.png",
       "category": "Utility"
     },
     "mac": {
@@ -46,12 +46,21 @@
   "keywords": [],
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/dotenv": "^8.2.3",
+    "@types/electron": "^1.6.12",
+    "@types/esm": "^3.2.2",
+    "@types/node": "^22.13.10",
     "concurrently": "^9.1.2",
     "cross-env": "^7.0.3",
     "electron": "^35.0.0",
-    "electron-builder": "^25.1.8"
+    "electron-builder": "^25.1.8",
+    "esm": "^3.2.25",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
   }
 }

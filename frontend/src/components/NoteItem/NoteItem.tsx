@@ -1,6 +1,6 @@
 import React from "react";
 import { useAppDispatch } from "../../hooks/hook";
-import { toggleComplete, toggleImportant, removeNote } from "../../services/noteSlice.tsx";
+import { toggleComplete, toggleImportant, removeNoteAsync } from "../../services/noteSlice.tsx";
 
 interface NoteItemProps {
     id: string,
@@ -32,7 +32,7 @@ const NoteItem: React.FC<NoteItemProps> = ({ id, date, title, text, completed, i
        />
     <div>{text}</div>
     </div>
-    <button onClick={() => dispatch(removeNote(id))}>Delete</button>
+    <button onClick={() => dispatch(removeNoteAsync(id))}>Delete</button>
     </li>
         
     )

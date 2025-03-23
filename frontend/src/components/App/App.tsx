@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch } from '../../hooks/hook';
 import Notes from '../Notes/Notes';
-import { addNote } from '../../services/noteSlice';
+import { fetchNotesAsync, addNoteAsync } from '../../services/noteSlice';
 import NotesList from '../NotesList/NotesList';
 import './App.css';
 
@@ -11,9 +11,25 @@ function App() {
 const [text, setText] = useState('');
 const dispatch = useAppDispatch();
 
+useEffect(() => {
+  dispatch(fetchNotesAsync());
+}, [dispatch]);
+
 const handleAction = () => {
+
+  console.log("handleAction вызван"); 
+    
   if (text.trim().length) {
-    dispatch(addNote(text));
+    console.log("Отправляем в Redux:", text);
+    const data = {
+      title: text,
+      text,
+      completed: false,
+      importance: false,
+      synced: false
+    };
+    console.log(data, 'data')
+    dispatch(addNoteAsync(data));
     setText('');
   }
 }
