@@ -16,7 +16,7 @@ const openDB = (): Promise<IDBDatabase> => {
     request.onsuccess = () => resolve(request.result);
     request.onerror = () => reject(request.error);
   });
-};
+}; 
 
 // Добавление заметки в IndexedDB
 export const addNoteToDB = async (note: Note) => {

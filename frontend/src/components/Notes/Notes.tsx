@@ -9,7 +9,7 @@ const Notes: React.FC<NewNoteProps> = ({ value, updateText, handleAction }) => {
    
     return (
       <label>
-        <input type="text" 
+        <input type="text"
         placeholder='new note'
         value={value}
         onChange={(e) => updateText(e.target.value)}
